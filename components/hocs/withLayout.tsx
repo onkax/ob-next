@@ -6,6 +6,7 @@ import {
   IContentfulPageBase,
   IPageSeo,
 } from "../interfaces/pages";
+import Headers from "../organisms/headers";
 
 export const withLayout = (
   BodyComponent: React.ComponentType<IPageDataProps<IContentfulPage>>,
@@ -16,10 +17,7 @@ export const withLayout = (
       <>
         <Meta {...(innerProps.page?.seo as IPageSeo)} />
         <header className="relative z-50 bg-primary-white">
-          {/* <Headers
-            menu={innerProps.menu}
-            secondaryMenu={innerProps.secondaryMenu}
-          /> */}
+          <Headers />
         </header>
         <main id="main">
           <BodyComponent {...props} />

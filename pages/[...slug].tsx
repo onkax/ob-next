@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { GetStaticPaths, GetStaticProps } from "next";
 import { useEffect } from "react";
 import ContentfulApi from "../components/apis/contentfulApi";
@@ -16,7 +17,7 @@ export default function PageWrapper(
   useEffect(() => {
     setResourceList(props.resources || []);
     setImageList(props.assets || []);
-  }, [props.assets, props.resources, setImageList, setResourceList]);
+  }, []);
 
   const FullPage = withLayout(() => {
     return (

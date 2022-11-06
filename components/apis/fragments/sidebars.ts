@@ -3,6 +3,13 @@ fragment sidebarAssetListFragment on SidebarAssetList {
     sys {
       id
     }
+    title
+    summary
+    assetCollection(limit: 5) {
+      items {
+        ...assetFragment
+      }
+    }
   }
 `;
 

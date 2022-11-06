@@ -1,16 +1,3 @@
-import { assetFragment } from "./common";
-import {
-  componentArticleFragment,
-  componentDataListFragment,
-  componentHeroFragment,
-  componentPageHeaderFragment,
-} from "./components";
-import {
-  sidebarMediaFragment,
-  sidebarAssetListFragment,
-  sidebarTextareaFragment,
-} from "./sidebars";
-
 export const pageListFragment = `
 fragment pageListFragment on Page {
     slug

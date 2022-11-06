@@ -34,16 +34,11 @@ const Custom404 = (props: IPageDataProps<IContentfulPage>): JSX.Element => {
 export const getStaticProps: GetStaticProps = async () => {
   return {
     props: {
-      // menu: (await ContentfulApi.getMenuByTitle("main-menu")) ?? null,
-      // secondaryMenu:
-      //   (await ContentfulApi.getMenuByTitle("secondary-menu")) ?? null,
-      // footerMenu: (await ContentfulApi.getMenuByTitle("footer")) ?? null,
-      // assets: await ContentfulApi.getAssetByTitles([
-      //   "footer-logo",
-      //   "header-logo",
-      //   "error-page-figure",
-      // ]),
-      // resources: await ContentfulApi.getAllResources(),
+      menu: (await ContentfulApi.getMenuByTitle("main-nav")) ?? null,
+      secondaryMenu: (await ContentfulApi.getMenuByTitle("extra-nav")) ?? null,
+      footerMenu: (await ContentfulApi.getMenuByTitle("footer-nav")) ?? null,
+      assets: await ContentfulApi.getAssetByTitles(),
+      resources: await ContentfulApi.getAllResources(),
     },
   };
 };

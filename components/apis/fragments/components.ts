@@ -1,10 +1,3 @@
-import {
-  pageListFragment,
-  newsListFragment,
-  productListFragment,
-  referenceListFragment,
-} from "./pages";
-
 export const componentHeroFragment = `
 fragment componentHeroFragment on ComponentHero {
     sys {
@@ -58,7 +51,7 @@ fragment componentDataListFragment on ComponentDataList {
     }
     title
     summary
-    dataCollection(limit: 50) {
+    dataCollection(limit: 30) {
       total
       skip
       limit
