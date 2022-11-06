@@ -22,8 +22,7 @@ export default function PageWrapper(
   const FullPage = withLayout(() => {
     return (
       <>
-        onur
-        <SlugBody bodyCollection={props.page?.bodyCollection} />
+        <SlugBody collection={props.page?.collection} />
       </>
     );
   }, props);

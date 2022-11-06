@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Popover, Transition } from "@headlessui/react";
 import {
   ArrowPathIcon,
@@ -99,9 +99,25 @@ function classNames(...classes: string[]) {
 }
 
 export default function Headers() {
+  const [navbar, setNavbar] = useState(false);
+
+  const changeBackground = () => {
+    console.log(window.scrollY);
+    if (window.scrollY >= 1) {
+      setNavbar(true);
+    } else {
+      setNavbar(false);
+    }
+  };
+
+  useEffect(() => {
+    // adding the event when scroll change Logo
+    window.addEventListener("scroll", changeBackground);
+  });
+
   return (
-    <Popover className="relative bg-white">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6">
+    <Popover className={classNames(navbar ? "bg-white" : "")}>
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 container">
         <div className="flex items-center justify-between border-b-2 border-gray-100 py-6 md:justify-start md:space-x-10">
           <div className="flex justify-start lg:w-0 lg:flex-1">
             <a href="#">

@@ -20,7 +20,7 @@ export interface IPageSeo extends IContentfulBase {
 }
 
 export interface IContentfulPage extends IContentfulPageBase {
-  bodyCollection?: IContentfulItemCollection<IContentfulBase>;
+  collection?: IContentfulItemCollection<IContentfulBase>;
 }
 
 export interface INewsPages extends IContentfulPageBase {

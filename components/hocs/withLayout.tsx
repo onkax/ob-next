@@ -6,6 +6,7 @@ import {
   IContentfulPageBase,
   IPageSeo,
 } from "../interfaces/pages";
+import Footer from "../organisms/footer";
 import Headers from "../organisms/headers";
 
 export const withLayout = (
@@ -22,7 +23,9 @@ export const withLayout = (
         <main id="main">
           <BodyComponent {...props} />
         </main>
-        <footer>{/* <Footer footerMenu={innerProps.footerMenu} /> */}</footer>
+        <footer>
+          <Footer footerMenu={innerProps.footerMenu} />
+        </footer>
       </>
     );
   };

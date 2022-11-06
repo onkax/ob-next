@@ -20,8 +20,7 @@ export const Index = (props: IPageDataProps<IContentfulPage>): JSX.Element => {
   const FullPage = withLayout(() => {
     return (
       <>
-        onur
-        <SlugBody bodyCollection={props.page?.bodyCollection} />
+        <SlugBody collection={props.page?.collection} />
       </>
     );
   }, props);
