@@ -1,4 +1,5 @@
-import { IContentfulPage, IContentfulBase } from "../interfaces/contentful";
+import { IContentfulBase } from "../interfaces/contentful";
+import { IContentfulPage } from "../interfaces/pages";
 import ComponentResolver from "./componentResolver";
 
 export default function SlugBody(props: IContentfulPage): JSX.Element {

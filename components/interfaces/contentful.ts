@@ -1,4 +1,5 @@
 import { ItemNavigation, ItemResource } from "./common";
+import { IContentfulPageBase } from "./pages";
 
 export interface IContentfulResponse<T> extends Response {
   data: IContentfulResponseData<T>;
@@ -6,11 +7,19 @@ export interface IContentfulResponse<T> extends Response {
 }
 export interface IContentfulResponseError {
   message: string;
+  locations: any;
 }
 export interface IContentfulResponseData<T> {
   collection: IContentfulItemCollection<T>;
+  pages: IContentfulItemCollection<T>;
+  news: IContentfulItemCollection<T>;
+  products: IContentfulItemCollection<T>;
+  references: IContentfulItemCollection<T>;
 }
 export interface IContentfulItemCollection<T> {
+  total: number;
+  skip: number;
+  limit: number;
   items: T[];
 }
 export interface IPageDataProps<T> {
@@ -29,43 +38,12 @@ interface IContentfulSys {
   id: number;
   publishedAt: Date;
 }
-export interface IContentfulPageBase extends IContentfulBase {
-  title?: string;
-  slug?: string;
-  seo?: IPageSeo;
-}
-export interface IContentfulPage extends IContentfulPageBase {
-  bodyCollection?: IContentfulItemCollection<IContentfulBase>;
-}
-export interface IPageSeo extends IContentfulBase {
-  title: string;
-  keywords: string;
-  description: string;
-  ogTitle?: string;
-  ogType?: string;
-  ogUrl?: string;
-  ogImage?: string;
-  noIndex?: boolean;
-  noFollow?: boolean;
-  canonicalUrl?: string;
-}
-
-export interface RTNode {
-  data: { target?: IContentfulBase };
-  nodeType: string;
-}
-
-export interface ISideBarItem extends IContentfulBase {
-  title: string;
-  description: string;
-}
 
 export interface IAsset extends IContentfulBase {
   title: string;
   url: string;
   width: number;
   height: number;
-  contentType: string;
   thumb: string;
   description: string;
   downloadUrl: string;
@@ -81,15 +59,15 @@ export interface IDocument extends IContentfulBase {
 }
 
 export interface IImage extends IAsset {
-  i?: string;
+  contentType: string;
 }
 
 export interface IVideo extends IAsset {
-  v?: string;
+  contentType: string;
 }
 
 export interface IPdf extends IAsset {
-  g?: string;
+  contentType: string;
 }
 
 export interface IRichText {

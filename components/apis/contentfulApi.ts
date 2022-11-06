@@ -1,18 +1,18 @@
 import { ItemResource, ItemNavigation } from "../interfaces/common";
 import {
   IContentfulResponse,
-  IContentfulPage,
   IImage,
   IContentfulBase,
   IPageDataProps,
 } from "../interfaces/contentful";
+import { IContentfulPage, IContentfulPageBase } from "../interfaces/pages";
 import {
-  getAllPagesQuery,
-  getAllResourcesQuery,
-  getAssetQuery,
-  getContentByIdQuery,
-  getMenuQuery,
-  getPageBySlugQuery,
+  GetAllPagesQuery,
+  GetAllResourcesQuery,
+  GetAssetByTitlesQuery,
+  GetContentByIdQuery,
+  GetMenuByTitleQuery,
+  GetPageBySlugQuery,
 } from "./contentfulQueries";
 
 export default class ContentfulApi {
@@ -35,46 +35,50 @@ export default class ContentfulApi {
       body: JSON.stringify({ query, variables }),
     };
 
-    try {
-      return await fetch(fetchUrl, fetchOptions).then((response: Response) => {
-        if ((response as IContentfulResponse<T>).errors !== undefined) {
-          console.log(JSON.stringify(response));
-        }
-        return response.json();
-      });
-    } catch (error: unknown) {
-      throw console.log(error);
-    }
+    return await fetch(fetchUrl, fetchOptions).then((response: Response) => {
+      return response.json();
+    });
   }
 
   private static async getPageBySlug(
     slug = "home",
     isPreview = false
-  ): Promise<IContentfulPage> {
+  ): Promise<IContentfulPage | undefined> {
     const response = (await this.callContentful(
-      getPageBySlugQuery,
+      GetPageBySlugQuery,
       { slug, isPreview },
       isPreview
-    ).catch((error: PromiseLike<void>) =>
-      console.log(error)
     )) as IContentfulResponse<IContentfulPage>;
     HandleExternalError(response);
-    return response.data.collection.items[0];
+
+    const page = response.data?.pages?.items.pop();
+    const news = response.data?.news?.items.pop();
+    const product = response.data?.products?.items.pop();
+    const reference = response.data?.references?.items.pop();
+
+    return page || news || product || reference;
   }
 
-  static async getAllPages(): Promise<IContentfulPage[]> {
+  static async getAllPages(): Promise<IContentfulPageBase[]> {
     const response = (await this.callContentful(
-      getAllPagesQuery
-    )) as IContentfulResponse<IContentfulPage>;
+      GetAllPagesQuery
+    )) as IContentfulResponse<IContentfulPageBase>;
     HandleExternalError(response);
-    return response.data?.collection.items;
+    const { pages, news, products, references } = response.data;
+    return [
+      ...pages?.items,
+      ...news?.items,
+      ...products?.items,
+      ...references?.items,
+    ];
   }
 
   static async getAllResources(): Promise<ItemResource[]> {
     const response = (await this.callContentful(
-      getAllResourcesQuery
+      GetAllResourcesQuery
     )) as IContentfulResponse<ItemResource>;
-    return response.data.collection.items;
+    HandleExternalError(response);
+    return response.data?.collection?.items;
   }
 
   static async getMenuByTitle(
@@ -82,32 +86,26 @@ export default class ContentfulApi {
     isPreview = false
   ): Promise<ItemNavigation[]> {
     const response = (await this.callContentful(
-      getMenuQuery,
+      GetMenuByTitleQuery,
       {
         title,
       },
       isPreview
     )) as IContentfulResponse<ItemNavigation>;
+    HandleExternalError(response);
     return (
       response?.data?.collection?.items?.[0]?.subItemsCollection?.items || []
     );
   }
 
   static async getAssetByTitles(titles: string[] = []): Promise<IImage[]> {
-    const standartAssets = [
-      "footer-logo",
-      "footer-body",
-      "header-logo",
-      "video-play",
-      "about-us-cheer",
-      "video-cover-big",
-      "weight-lifter",
-    ];
-    const title = standartAssets.concat(titles);
-    const response = (await this.callContentful(getAssetQuery, {
+    const standartAssets = ["gym"];
+    const title = [...standartAssets, ...titles];
+    const response = (await this.callContentful(GetAssetByTitlesQuery, {
       title,
     })) as IContentfulResponse<IImage>;
-    return response.data.collection.items;
+    HandleExternalError(response);
+    return response.data?.collection?.items;
   }
 
   static async getContentById(
@@ -115,14 +113,12 @@ export default class ContentfulApi {
     isPreview = true
   ): Promise<IContentfulBase> {
     const response = (await this.callContentful(
-      getContentByIdQuery,
+      GetContentByIdQuery,
       { id },
       isPreview
-    ).catch((error: PromiseLike<void>) =>
-      console.log(error)
     )) as IContentfulResponse<IContentfulBase>;
-
-    return response.data.collection.items[0];
+    HandleExternalError(response);
+    return response.data?.collection?.items[0];
   }
 
   static async getPageData(
@@ -130,10 +126,11 @@ export default class ContentfulApi {
     isPreview = false
   ): Promise<IPageDataProps<IContentfulPage>> {
     const page = await this.getPageBySlug(slug, isPreview);
-    const menu = (await this.getMenuByTitle("main-menu", isPreview)) ?? null;
+    const menu = (await this.getMenuByTitle("main-nav", isPreview)) ?? null;
     const secondaryMenu =
-      (await this.getMenuByTitle("secondary-menu", isPreview)) ?? null;
-    const footerMenu = (await this.getMenuByTitle("footer", isPreview)) ?? null;
+      (await this.getMenuByTitle("extra-nav", isPreview)) ?? null;
+    const footerMenu =
+      (await this.getMenuByTitle("footer-nav", isPreview)) ?? null;
     const resources = await this.getAllResources();
     const assets = await this.getAssetByTitles();
 
@@ -142,7 +139,9 @@ export default class ContentfulApi {
 }
 
 function HandleExternalError(
-  response: IContentfulResponse<IContentfulPage>
+  response: IContentfulResponse<IContentfulBase>
 ): void {
-  if (response.data === undefined) console.log(response);
+  if (response.data === undefined) {
+    console.log(response.errors);
+  }
 }

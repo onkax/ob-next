@@ -1,10 +1,11 @@
+/* eslint-disable react/display-name */
 import Meta from "../atoms/meta";
+import { IPageDataProps } from "../interfaces/contentful";
 import {
-  IPageDataProps,
   IContentfulPage,
   IContentfulPageBase,
   IPageSeo,
-} from "../interfaces/contentful";
+} from "../interfaces/pages";
 
 export const withLayout = (
   BodyComponent: React.ComponentType<IPageDataProps<IContentfulPage>>,

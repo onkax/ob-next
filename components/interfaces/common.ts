@@ -1,3 +1,4 @@
+import { InternalSymbolName } from "typescript";
 import { IContentfulItemCollection, IContentfulBase } from "./contentful";
 
 export interface ItemNavigation extends IContentfulBase {
@@ -15,8 +16,6 @@ export interface ItemResource extends IContentfulBase {
   value: string;
 }
 
-export interface SelectItem {
-  id: string;
-  label: string;
-  value: string;
+export interface ISidebarBase extends IContentfulBase {
+  [key: string]: any;
 }

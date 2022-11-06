@@ -1,151 +1,64 @@
-export const assetFragment = `
-fragment assetFragment on Asset {
-  sys {id}
-  title
-  description
-  fileName
-  contentType
-  url(
-    transform: {
-      format: WEBP
-      quality: 90
-    }
-  )
-  thumb:url(
-    transform: {
-      format: WEBP
-      quality: 90
-      width:260
-      height:195
-      resizeStrategy: PAD
-    }
-  )
-  downloadUrl:url
-  width
-  height
-}
-`;
+import { assetFragment } from "./fragments/common";
+import {
+  componentArticleFragment,
+  componentDataListFragment,
+  componentHeroFragment,
+  componentPageHeaderFragment,
+} from "./fragments/components";
+import {
+  dataNewsFragment,
+  dataProductFragment,
+  dataReferencesFragment,
+} from "./fragments/datas";
+import {
+  itemNavigationFragment,
+  itemResourceFragment,
+} from "./fragments/items";
+import {
+  newsListFragment,
+  pageFragment,
+  pageListFragment,
+  pageSeoFragment,
+  productListFragment,
+  referenceListFragment,
+} from "./fragments/pages";
+import {
+  sidebarMediaFragment,
+  sidebarAssetListFragment,
+  sidebarTextareaFragment,
+} from "./fragments/sidebars";
 
-export const itemResourceFragment = `
-fragment itemResourceFragment on ItemResource {
-  key
-  value
-}
-`;
-
-export const itemNavigationFragment = `
-fragment itemNavigationFragment on ItemNavigation {
-  sys{id}
-  title
-  navigateTo
-  subItemsCollection(limit: 10) {
-    items {
-      sys{id}
-      title
-      navigateTo
-      subItemsCollection(limit: 9) {
-        items {
-          sys{id}
-          title
-          navigateTo
-          summary
-          cssClass
-          subItemsCollection(limit: 9) {
-            items {
-              sys{id}
-              title
-              navigateTo
-              summary
-              cssClass
-            }
-          }
-        }
-      }
-    }
-  }
-}
-`;
-
-export const seoFragment = `
-fragment seoFragment on PageSeo {
-  sys {id}
-  title
-  description
-  keywords
-  noIndex
-  noFollow
-}
-`;
-
-export const componentHeroFragment = `
-fragment componentHeroFragment on ComponentHero {
-  sys{id}
-  media {
-    ...assetFragment
-  }
-}
-${assetFragment}
-`;
-
-export const componentPageBannerFragment = `
-fragment componentPageBannerFragment on ComponentPageHeader {
-  sys{id}
-}
-`;
-
-export const pageFragment = `
-fragment pageFragment on Page {
-  sys {
-    id
-    publishedAt
-  }
-  seo {
-    ...seoFragment
-  }
-  slug
-  bodyCollection(limit:9) {
-    items {
-      __typename
-      ...componentHeroFragment
-      ...componentPageBannerFragment
-    }
-  }
-}
-${seoFragment}
-${componentPageBannerFragment}
-${componentHeroFragment}
-`;
-
-export const getPageBySlugQuery = `
-query GetPageBySlug($slug: String!, $isPreview: Boolean) {
-  collection: pageCollection(where: {slug: $slug}, limit: 1, preview: $isPreview){
-    items {
-      ...pageFragment
-    }
-  }
-}
-${pageFragment}
-`;
-
-export const pageListFragment = `
-fragment pageListFragment on Page {
-  slug
-}
-`;
-
-export const getAllPagesQuery = `
-query GetAllPages{
-  collection: pageCollection {
+export const GetAllPagesQuery = `
+query GetAllPagesQuery {
+  pages: pageCollection(limit: 31) {
     items {
       ...pageListFragment
     }
   }
+  news: dataNewsCollection(limit: 31) {
+    items {
+      ...newsListFragment
+    }
+  }
+  products: dataProductCollection(limit: 31) {
+    items {
+      ...productListFragment
+    }
+  }
+  references: dataReferencesCollection(limit: 31) {
+    items {
+      ...referenceListFragment
+    }
+  }
 }
 ${pageListFragment}
+${newsListFragment}
+${productListFragment}
+${referenceListFragment}
 `;
 
-export const getAllResourcesQuery = `
-query GetAllResources($isPreview: Boolean) {
+export const GetAllResourcesQuery = `
+query GetAllResourcesQuery($isPreview: Boolean) {
   collection: itemResourceCollection(limit: 1000, preview: $isPreview) {
     items {
       ...itemResourceFragment
@@ -155,19 +68,24 @@ query GetAllResources($isPreview: Boolean) {
 ${itemResourceFragment}
 `;
 
-export const getMenuQuery = `
-query GetMenu($title: String!, $isPreview: Boolean) {
+export const GetMenuByTitleQuery = `
+query GetMenuByTitleQuery($title: String!, $isPreview: Boolean) {
   collection: itemNavigationCollection(where: {title: $title}, limit:1, preview: $isPreview) {
     items{
       ...itemNavigationFragment
     }
   }
 }
+${pageListFragment}
+${newsListFragment}
+${productListFragment}
+${referenceListFragment}
 ${itemNavigationFragment}
+${assetFragment}
 `;
 
-export const getAssetQuery = `
-query GetAssetByTitle($title: [String]!) {
+export const GetAssetByTitlesQuery = `
+query GetAssetByTitlesQuery($title: [String]!) {
   collection: assetCollection(where: {title_in: $title}) {
     items {
       ...assetFragment
@@ -177,19 +95,57 @@ query GetAssetByTitle($title: [String]!) {
 ${assetFragment}
 `;
 
-export const getContentByIdQuery = `
-query getContentById($id: String!) {
+export const GetContentByIdQuery = `
+query GetContentByIdQuery($id: String!) {
   collection: entryCollection(where: {sys: {id: $id}}, preview: true, limit: 1) {
     items {
       sys {
         id
       }
       __typename
-      ...componentHeroFragment
-      ...componentPageBannerFragment
     }
   }
 }
+`;
+
+export const GetPageBySlugQuery = `
+query GetPageBySlugQuery($slug: String!, $isPreview: Boolean) {
+  pages: pageCollection(where: {slug: $slug}, limit: 1, preview: $isPreview) {
+    items {
+      ...pageFragment
+    }
+  }
+  news: dataNewsCollection(where: {slug: $slug}, limit: 1, preview: $isPreview) {
+    items {
+      ...dataNewsFragment
+    }
+  }
+  products: dataProductCollection(where: {slug: $slug}, limit: 1, preview: $isPreview) {
+    items {
+      ...dataProductFragment
+    }
+  }
+  references: dataReferencesCollection(where: {slug: $slug}, limit: 1, preview: $isPreview) {
+    items {
+      ...dataReferencesFragment
+    }
+  }
+}
+${assetFragment}
+${pageListFragment}
+${newsListFragment}
+${productListFragment}
+${referenceListFragment}
+${pageSeoFragment}
 ${componentHeroFragment}
-${componentPageBannerFragment}
+${componentArticleFragment}
+${componentDataListFragment}
+${componentPageHeaderFragment}
+${sidebarMediaFragment}
+${sidebarAssetListFragment}
+${sidebarTextareaFragment}
+${pageFragment}
+${dataNewsFragment}
+${dataProductFragment}
+${dataReferencesFragment}
 `;

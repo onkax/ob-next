@@ -1,5 +1,5 @@
 import { NextSeo } from "next-seo";
-import { IPageSeo } from "../interfaces/contentful";
+import { IPageSeo } from "../interfaces/pages";
 import { useResourceProvider } from "../stores/resource";
 
 const Meta = (props: IPageSeo): JSX.Element => {
