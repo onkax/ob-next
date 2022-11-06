@@ -3,9 +3,12 @@ import { GetStaticPaths, GetStaticProps } from "next";
 import { useEffect } from "react";
 import ContentfulApi from "../components/apis/contentfulApi";
 import { withLayout } from "../components/hocs/withLayout";
-import { IPageDataProps } from "../components/interfaces/contentful";
+import {
+  IContentfulBase,
+  IPageDataProps,
+} from "../components/interfaces/contentful";
 import { IContentfulPage } from "../components/interfaces/pages";
-import SlugBody from "../components/organisms/body";
+import ComponentResolver from "../components/organisms/componentResolver";
 import { useImageProvider } from "../components/stores/image";
 import { useResourceProvider } from "../components/stores/resource";
 
@@ -22,7 +25,9 @@ export default function PageWrapper(
   const FullPage = withLayout(() => {
     return (
       <>
-        <SlugBody collection={props.page?.collection} />
+        {props?.page?.collection?.items.map((component: IContentfulBase) => {
+          return <ComponentResolver key={component.sys?.id} {...component} />;
+        })}
       </>
     );
   }, props);

@@ -1,14 +1,18 @@
+import { isAbsolute } from "path";
 import { InternalSymbolName } from "typescript";
-import { IContentfulItemCollection, IContentfulBase } from "./contentful";
+import {
+  IContentfulItemCollection,
+  IContentfulBase,
+  IAsset,
+} from "./contentful";
+import { IPageBasedData } from "./data";
 
 export interface ItemNavigation extends IContentfulBase {
-  subItemsCollection: IContentfulItemCollection<ItemNavigation>;
-  items: ItemNavigation[];
-  navigateTo: string;
   title: string;
-  secondary: boolean;
-  summary: string;
-  cssClass: string;
+  navigateTo: IPageBasedData;
+  externalUrl: string;
+  logo: IAsset;
+  subNavigationCollection: IContentfulItemCollection<ItemNavigation>;
 }
 
 export interface ItemResource extends IContentfulBase {

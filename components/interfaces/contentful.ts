@@ -1,5 +1,5 @@
 import { ItemNavigation, ItemResource } from "./common";
-import { IContentfulPageBase } from "./pages";
+import { Document } from "@contentful/rich-text-types";
 
 export interface IContentfulResponse<T> extends Response {
   data: IContentfulResponseData<T>;

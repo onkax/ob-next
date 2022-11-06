@@ -28,7 +28,7 @@ export function ResourceProvider({
     );
 
   const getResource = (key: string): string =>
-    resources[key.toLowerCase() as keyof typeof resources] ?? key;
+    resources[key.toLowerCase() as keyof typeof resources] ?? key.toLowerCase();
 
   return (
     <ResourceContext.Provider

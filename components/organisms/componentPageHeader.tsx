@@ -1,5 +1,5 @@
-import { ReactElement } from "react";
 import Container from "../atoms/container";
+import NavigationLink from "../atoms/navigationLink";
 import { IComponentPageHeader } from "../interfaces/components";
 
 function classNames(...classes: string[]) {
@@ -8,11 +8,11 @@ function classNames(...classes: string[]) {
 
 export default function ComponentPageHeader(
   props: IComponentPageHeader
-): ReactElement<any, any> {
+): JSX.Element {
   return (
     <Container
       isFull={true}
-      className={classNames()}
+      className={classNames("pt-20")}
       style={
         props.backgroundCollection.items?.[0] && {
           height: `${
@@ -26,7 +26,17 @@ export default function ComponentPageHeader(
         }
       }
     >
-      <>ComponentPageHeader</>
+      <>
+        <h2>{props.headline}</h2>
+        <h3>{props.tagline}</h3>
+        <NavigationLink
+          link={props.ctaNavigateTo}
+          external={props.ctaExternalUrl}
+        >
+          {props.ctaButtonText}
+        </NavigationLink>
+        {props.ctaBox && <p>{props.ctaBox.__typename}</p>}
+      </>
     </Container>
   );
 }

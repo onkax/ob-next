@@ -3,11 +3,14 @@ import { GetStaticProps } from "next";
 import { useResourceProvider } from "../components/stores/resource";
 import { useEffect } from "react";
 import { useImageProvider } from "../components/stores/image";
-import { IPageDataProps } from "../components/interfaces/contentful";
+import {
+  IContentfulBase,
+  IPageDataProps,
+} from "../components/interfaces/contentful";
 import ContentfulApi from "../components/apis/contentfulApi";
 import { withLayout } from "../components/hocs/withLayout";
-import SlugBody from "../components/organisms/body";
 import { IContentfulPage } from "../components/interfaces/pages";
+import ComponentResolver from "../components/organisms/componentResolver";
 
 export const Index = (props: IPageDataProps<IContentfulPage>): JSX.Element => {
   const { setResourceList } = useResourceProvider();
@@ -20,7 +23,9 @@ export const Index = (props: IPageDataProps<IContentfulPage>): JSX.Element => {
   const FullPage = withLayout(() => {
     return (
       <>
-        <SlugBody collection={props.page?.collection} />
+        {props?.page?.collection?.items.map((component: IContentfulBase) => {
+          return <ComponentResolver key={component.sys?.id} {...component} />;
+        })}
       </>
     );
   }, props);

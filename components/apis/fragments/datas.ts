@@ -1,5 +1,8 @@
 export const dataNewsFragment = `
 fragment dataNewsFragment on DataNews {
+  sys {
+    id
+  }
   title
   slug
   category
@@ -22,6 +25,9 @@ fragment dataNewsFragment on DataNews {
 
 export const dataProductFragment = `
 fragment dataProductFragment on DataProduct {
+  sys {
+    id
+  }
     title
     slug
     summary
@@ -55,6 +61,9 @@ fragment dataProductFragment on DataProduct {
 
 export const dataReferencesFragment = `
 fragment dataReferencesFragment on DataReferences {
+  sys {
+    id
+  }
     title
     slug
     summary

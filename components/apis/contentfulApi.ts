@@ -94,7 +94,8 @@ export default class ContentfulApi {
     )) as IContentfulResponse<ItemNavigation>;
     HandleExternalError(response);
     return (
-      response?.data?.collection?.items?.[0]?.subItemsCollection?.items || []
+      response?.data?.collection?.items?.[0]?.subNavigationCollection?.items ||
+      []
     );
   }
 

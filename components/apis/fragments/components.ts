@@ -39,6 +39,7 @@ fragment componentArticleFragment on ComponentArticle {
       limit
       items {
         __typename
+        ...sidebarAssetListFragment
       }
     }
   }
