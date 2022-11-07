@@ -41,7 +41,7 @@ export default function Header({
         navbar ? "bg-white drop-shadow-lg" : "bg-transparent"
       )}
     >
-      <div className={classNames("md:basis-3/12")}>
+      <div className={classNames("md:basis-3/12 self-center pl-2")}>
         <Asset image={menu?.logo as IImage} showThumb={true} />
       </div>
       <div

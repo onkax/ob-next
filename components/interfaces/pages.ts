@@ -1,4 +1,11 @@
-import { IContentfulBase, IContentfulItemCollection } from "./contentful";
+import { ISidebarBase } from "./common";
+import {
+  IAsset,
+  IContentfulBase,
+  IContentfulItemCollection,
+  IRichText,
+} from "./contentful";
+import { Document } from "@contentful/rich-text-types";
 
 export interface IContentfulPageBase extends IContentfulBase {
   title?: string;
@@ -21,6 +28,7 @@ export interface IPageSeo extends IContentfulBase {
 
 export interface IContentfulPage extends IContentfulPageBase {
   collection?: IContentfulItemCollection<IContentfulBase>;
+  pageType?: "page" | "news" | "product" | "reference" | undefined;
 }
 
 export interface INewsPages extends IContentfulPageBase {
@@ -28,7 +36,13 @@ export interface INewsPages extends IContentfulPageBase {
 }
 
 export interface IProductPages extends IContentfulPageBase {
-  category?: string;
+  title: string;
+  slug: string;
+  summary: string;
+  textarea: IRichText;
+  image: IAsset;
+  galleryCollection: IContentfulItemCollection<IAsset>;
+  asideCollection: IContentfulItemCollection<ISidebarBase>;
 }
 
 export interface IReferencePages extends IContentfulPageBase {

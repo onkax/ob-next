@@ -7,8 +7,9 @@ import {
   IContentfulBase,
   IPageDataProps,
 } from "../components/interfaces/contentful";
-import { IContentfulPage } from "../components/interfaces/pages";
+import { IContentfulPage, IProductPages } from "../components/interfaces/pages";
 import ComponentResolver from "../components/organisms/componentResolver";
+import ProductResolver from "../components/organisms/productResolver";
 import { useImageProvider } from "../components/stores/image";
 import { useResourceProvider } from "../components/stores/resource";
 
@@ -22,17 +23,63 @@ export default function PageWrapper(
     setImageList(props.assets || []);
   }, []);
 
-  const FullPage = withLayout(() => {
-    return (
-      <>
-        {props?.page?.collection?.items.map((component: IContentfulBase) => {
-          return <ComponentResolver key={component.sys?.id} {...component} />;
-        })}
-      </>
-    );
-  }, props);
-
-  return <FullPage />;
+  switch (props.page?.pageType) {
+    case "page":
+      const FullPage = withLayout(() => {
+        return (
+          <>
+            {props?.page?.collection?.items.map(
+              (component: IContentfulBase) => {
+                return (
+                  <ComponentResolver key={component.sys?.id} {...component} />
+                );
+              }
+            )}
+          </>
+        );
+      }, props);
+      return <FullPage />;
+    case "news":
+      const NewsPage = withLayout(() => {
+        return (
+          <>
+            {props?.page?.collection?.items.map(
+              (component: IContentfulBase) => {
+                return (
+                  <ComponentResolver key={component.sys?.id} {...component} />
+                );
+              }
+            )}
+          </>
+        );
+      }, props);
+      return <NewsPage />;
+    case "product":
+      const ProductPage = withLayout(() => {
+        return <ProductResolver {...(props.page as IProductPages)} />;
+      }, props);
+      return <ProductPage />;
+    case "reference":
+      const ReferencePage = withLayout(() => {
+        return (
+          <>
+            {props?.page?.collection?.items.map(
+              (component: IContentfulBase) => {
+                return (
+                  <ComponentResolver key={component.sys?.id} {...component} />
+                );
+              }
+            )}
+          </>
+        );
+      }, props);
+      return <ReferencePage />;
+    default:
+      const NotFound = withLayout(() => {
+        return <>Page type not found</>;
+      }, props);
+      return <NotFound />;
+  }
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
@@ -43,7 +90,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
       .map((page: IContentfulPage) => ({
         params: { slug: page.slug?.split("/") },
       })),
-    fallback: true,
+    fallback: false,
   };
 };
 

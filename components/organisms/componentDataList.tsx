@@ -20,7 +20,11 @@ export default function ComponentDataList(
           <div>
             {"- slideli"}
             {props.dataCollection.items.map((item: IPageBasedData) => {
-              return <p key={"data" + item.sys?.id}>{item.title}</p>;
+              return (
+                <a key={"data" + item.sys?.id} href={"/" + item.slug}>
+                  {item.title}
+                </a>
+              );
             })}
           </div>
         ) : (

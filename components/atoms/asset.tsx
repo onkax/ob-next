@@ -36,8 +36,8 @@ export default function Asset({
       <Image
         src={showThumb ? image.thumb : image.url}
         alt={image.description || getResource("general.company.title")}
-        width={layout === "fill" ? undefined : showThumb ? 250 : image.width}
-        height={layout === "fill" ? undefined : showThumb ? 80 : image.height}
+        width={layout === "fill" ? undefined : showThumb ? 125 : image.width}
+        height={layout === "fill" ? undefined : showThumb ? 40 : image.height}
         className={className}
         layout={layout}
         objectFit={objectFit}

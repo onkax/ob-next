@@ -51,10 +51,23 @@ export default class ContentfulApi {
     )) as IContentfulResponse<IContentfulPage>;
     HandleExternalError(response);
 
-    const page = response.data?.pages?.items.pop();
-    const news = response.data?.news?.items.pop();
-    const product = response.data?.products?.items.pop();
-    const reference = response.data?.references?.items.pop();
+    let page = response.data?.pages?.items.pop();
+    if (page !== undefined)
+      page.pageType = response.data.pages.total === 1 ? "page" : undefined;
+
+    let news = response.data?.news?.items.pop();
+    if (news !== undefined)
+      news.pageType = response.data.news.total === 1 ? "news" : undefined;
+
+    let product = response.data?.products?.items.pop();
+    if (product !== undefined)
+      product.pageType =
+        response.data.products.total === 1 ? "product" : undefined;
+
+    let reference = response.data?.references?.items.pop();
+    if (reference !== undefined)
+      reference.pageType =
+        response.data.references.total === 1 ? "reference" : undefined;
 
     return page || news || product || reference;
   }

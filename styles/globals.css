@@ -29,6 +29,10 @@ a {
     @apply mb-20;
   }
 
+  main > section:first-child > div:first-child {
+    @apply pt-32;
+  }
+
   h1 {
     @apply text-2xl;
   }

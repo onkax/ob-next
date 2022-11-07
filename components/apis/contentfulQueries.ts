@@ -111,21 +111,25 @@ query GetContentByIdQuery($id: String!) {
 export const GetPageBySlugQuery = `
 query GetPageBySlugQuery($slug: String!, $isPreview: Boolean) {
   pages: pageCollection(where: {slug: $slug}, limit: 1, preview: $isPreview) {
+    total
     items {
       ...pageFragment
     }
   }
   news: dataNewsCollection(where: {slug: $slug}, limit: 1, preview: $isPreview) {
+    total
     items {
       ...dataNewsFragment
     }
   }
   products: dataProductCollection(where: {slug: $slug}, limit: 1, preview: $isPreview) {
+    total
     items {
       ...dataProductFragment
     }
   }
   references: dataReferencesCollection(where: {slug: $slug}, limit: 1, preview: $isPreview) {
+    total
     items {
       ...dataReferencesFragment
     }
