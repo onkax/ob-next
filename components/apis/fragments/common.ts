@@ -7,8 +7,8 @@ fragment assetFragment on Asset {
     description
     fileName
     contentType
-    url(transform: {format: WEBP, quality: 90})
-    thumb: url(transform: {format: WEBP, quality: 90, width: 260, height: 195, resizeStrategy: PAD})
+    url(transform: {format: JPG_PROGRESSIVE, quality: 90})
+    thumb: url(transform: {format: WEBP, quality: 50, width: 250, height: 80, resizeStrategy: PAD})
     downloadUrl: url
     width
     height

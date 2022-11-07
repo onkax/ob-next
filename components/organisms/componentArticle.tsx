@@ -2,6 +2,7 @@ import Container from "../atoms/container";
 import { IComponentArticle } from "../interfaces/components";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 import { useResourceProvider } from "../stores/resource";
+import RichTextFormatter from "../utils/helpers/options";
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
@@ -20,7 +21,12 @@ export default function ComponentArticle(
     >
       <h2>{props.title}</h2>
       <h4>{getResource("article.category." + props.category)} </h4>
-      <div>{documentToReactComponents(props.textarea.json)}</div>
+      <div>
+        {documentToReactComponents(
+          props.textarea.json,
+          RichTextFormatter.Options(true, 3)
+        )}
+      </div>
     </Container>
   );
 }

@@ -21,21 +21,23 @@ export default function Asset({
   layout,
   objectFit,
   onClick,
+  showThumb = false,
 }: {
   image: IImage;
   className?: string;
   layout?: LayoutValue;
   objectFit?: ImgElementStyle["objectFit"];
   onClick?: MouseEventHandler<HTMLImageElement> | undefined;
+  showThumb?: boolean;
 }): JSX.Element {
   const { getResource } = useResourceProvider();
   return (
     image && (
       <Image
-        src={image.url}
+        src={showThumb ? image.thumb : image.url}
         alt={image.description || getResource("general.company.title")}
-        width={layout ? undefined : image.width}
-        height={layout ? undefined : image.height}
+        width={layout === "fill" ? undefined : showThumb ? 250 : image.width}
+        height={layout === "fill" ? undefined : showThumb ? 80 : image.height}
         className={className}
         layout={layout}
         objectFit={objectFit}

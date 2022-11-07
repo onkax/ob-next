@@ -12,7 +12,7 @@ export default function ComponentPageHeader(
   return (
     <Container
       isFull={true}
-      className={classNames("pt-20")}
+      className={classNames("pt-40")}
       style={
         props.backgroundCollection.items?.[0] && {
           height: `${
@@ -22,7 +22,7 @@ export default function ComponentPageHeader(
               ? props.backgroundCollection.items?.[0].height + "px"
               : "unset"
           }`,
-          background: `url(${props.backgroundCollection.items?.[0].url}) center bottom no-repeat`,
+          background: `url(${props.backgroundCollection.items?.[0].url}) left bottom no-repeat`,
         }
       }
     >

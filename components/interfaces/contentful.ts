@@ -24,9 +24,9 @@ export interface IContentfulItemCollection<T> {
 }
 export interface IPageDataProps<T> {
   page?: T; //ContentfulPage or ContentfulNews
-  menu?: ItemNavigation[];
-  secondaryMenu?: ItemNavigation[];
-  footerMenu?: ItemNavigation[];
+  menu?: ItemNavigation;
+  secondaryMenu?: ItemNavigation;
+  footerMenu?: ItemNavigation;
   resources?: ItemResource[];
   assets?: IImage[];
 }
@@ -60,6 +60,7 @@ export interface IDocument extends IContentfulBase {
 
 export interface IImage extends IAsset {
   contentType: string;
+  thumb: string;
 }
 
 export interface IVideo extends IAsset {

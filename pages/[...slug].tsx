@@ -43,7 +43,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
       .map((page: IContentfulPage) => ({
         params: { slug: page.slug?.split("/") },
       })),
-    fallback: false,
+    fallback: true,
   };
 };
 

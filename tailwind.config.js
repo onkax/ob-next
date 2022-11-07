@@ -11,9 +11,16 @@ module.exports = {
       center: true,
       padding: "1rem",
     },
+    textColor: {
+      primary: "#FE7000",
+    },
+    stroke: {
+      primary: "#FE7000",
+    },
     extend: {
       screens: {
         xs: "350px",
+        om: { max: "767px" },
       },
       backgroundImage: {
         "hero-pattern": "url('/img/hero-pattern.svg')",

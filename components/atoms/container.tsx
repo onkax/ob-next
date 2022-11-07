@@ -26,7 +26,7 @@ export default function Container({
     <section>
       <div
         className={classNames(
-          isFull ? "p-4 min-h-[600px]" : "md:container",
+          isFull ? "p-4 min-h-screen" : "om:px-4 md:container",
           className,
           aside && aside.total > 0 ? "flex flex-row gap-16" : ""
         )}

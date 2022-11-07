@@ -84,7 +84,7 @@ export default class ContentfulApi {
   static async getMenuByTitle(
     title = "",
     isPreview = false
-  ): Promise<ItemNavigation[]> {
+  ): Promise<ItemNavigation> {
     const response = (await this.callContentful(
       GetMenuByTitleQuery,
       {
@@ -93,10 +93,7 @@ export default class ContentfulApi {
       isPreview
     )) as IContentfulResponse<ItemNavigation>;
     HandleExternalError(response);
-    return (
-      response?.data?.collection?.items?.[0]?.subNavigationCollection?.items ||
-      []
-    );
+    return response?.data?.collection?.items?.pop() as ItemNavigation;
   }
 
   static async getAssetByTitles(titles: string[] = []): Promise<IImage[]> {

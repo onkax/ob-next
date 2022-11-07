@@ -20,15 +20,23 @@ a {
   box-sizing: border-box;
 }
 
-main > section {
-  min-height: 600px;
-  margin-bottom: 80px;
-  border-bottom: 2px solid red;
-}
-
 @layer base {
   main {
     @apply mt-[-80px] min-h-screen;
+  }
+
+  main > section {
+    @apply mb-20;
+  }
+
+  h1 {
+    @apply text-2xl;
+  }
+  h2 {
+    @apply text-xl;
+  }
+  h3 {
+    @apply text-lg;
   }
 }
 

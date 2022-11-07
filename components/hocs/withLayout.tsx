@@ -18,14 +18,14 @@ export const withLayout = (
     return (
       <>
         <Meta {...(innerProps.page?.seo as IPageSeo)} />
-        <header className="sticky top-0">
-          <Header menu={innerProps.menu as ItemNavigation[]} />
+        <header className="sticky top-0 z-50">
+          <Header menu={innerProps.menu as ItemNavigation} />
         </header>
         <main id="main">
           <BodyComponent {...props} />
         </main>
         <footer>
-          <Footer menu={innerProps.footerMenu as ItemNavigation[]} />
+          <Footer menu={innerProps.footerMenu as ItemNavigation} />
         </footer>
       </>
     );
