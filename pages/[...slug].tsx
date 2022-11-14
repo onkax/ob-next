@@ -84,20 +84,29 @@ export default function PageWrapper(
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const pages = await ContentfulApi.getAllPages();
+
   return {
     paths: pages
       .filter((page: IContentfulPage) => page.slug !== "" && page.slug !== null)
       .map((page: IContentfulPage) => ({
         params: { slug: page.slug?.split("/") },
       })),
-    fallback: false,
+    fallback: true,
   };
 };
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const data = await ContentfulApi.getPageData(
+    (params?.slug as string[]).join("/")
+  );
+
+  if (data === undefined || data.page === undefined) {
+    return {
+      notFound: true,
+    };
+  }
+
   return {
-    props: await ContentfulApi.getPageData(
-      (params?.slug as string[]).join("/")
-    ),
+    props: data,
   };
 };
